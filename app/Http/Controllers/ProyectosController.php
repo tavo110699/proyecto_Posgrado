@@ -206,8 +206,17 @@ class ProyectosController extends Controller
      * @param \App\Models\Proyectos $proyectos
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Proyectos $proyectos)
+    public function destroy($id)
     {
-        //
+        $proyecto = Proyectos::find($id);
+
+        if ($proyecto != null) {
+            if ($proyecto->delete()) {
+                Alert::success('Eliminado Correctamente', 'El proyecto fue eliminado correctamente');
+                return redirect()->route('proyectos.index');
+            }
+        }
+        Alert::error('Error!', 'Ocurrio un prolema al eliminar al colaborador');
+        return redirect()->route('proyectos.index');
     }
 }
